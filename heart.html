@@ -1,0 +1,36 @@
+<head>
+    <meta charset="UTF-8" />
+    <style>
+        * {
+            position: absolute;
+            font-size: 32px;
+        }
+    </style>
+    <body style="background-color: black; overflow: hidden" />
+    <script>
+        let { min, sin, cos, abs, random, PI } = Math;
+        let hearts = Array(256)
+            .fill()
+            .map((a, i, b, heart = document.createElement("div")) => {
+                heart.innerText = ["❤️", "❤️‍🔥", "💖", "💝"][(random() * 4) | 0];
+                document.body.append(heart);
+                return heart;
+            });
+        let animate = (time) => {
+            time /= 9696;
+
+            for (let i in hearts) {
+                let width = window.innerWidth / 2;
+                let height = window.innerHeight / 2;
+                let dim = min(width, height);
+                let a = (i / 128) * PI + time;
+                let b = a * 69;
+                hearts[i].style.transform =
+                    `translate(${width + (cos(a) / 1.5) * dim + cos(b) * 36.9 - 36.9}px, ${height + (sin(a) / 2 - Math.pow(abs(cos(a)), 0.69) / 2) * dim + sin(b) * 36.9}px)`;
+            }
+            requestAnimationFrame(animate);
+        };
+
+        animate();
+    </script>
+</head>
